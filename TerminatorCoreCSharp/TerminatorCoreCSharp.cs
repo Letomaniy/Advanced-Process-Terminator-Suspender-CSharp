@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,7 +9,7 @@ namespace TerminatorCoreCSharp
     public class TerminatorCore
     {
         private static int _processId;
-        private static IntPtr _processHandle;
+        public IntPtr _processHandle;
         private const int MAX_PATH = 260;
         private bool boAdjustPrivRet;
         public TerminatorCore(int processId)
@@ -74,7 +74,7 @@ namespace TerminatorCoreCSharp
                 throw new Exception("[SuspendProcess]Process handle equals null!");
             }
             return true;
-        } 
+        }
         public bool ResumeProcess()
         {
             if (_processHandle != IntPtr.Zero)
@@ -89,7 +89,7 @@ namespace TerminatorCoreCSharp
                 throw new Exception("[ResumeProcess]Process handle equals null!");
             }
             return true;
-        } 
+        }
         public void FreeTerminator()
         {
             WinAPi.CloseHandle(_processHandle);
@@ -150,7 +150,7 @@ namespace TerminatorCoreCSharp
                 WinAPi.CloseHandle(handleList[i]);
             }
             return hTarget;
-        } 
+        }
         private IntPtr GetProcessHandle(string _processName)
         {
             List<IntPtr> handleList = new List<IntPtr>();
@@ -192,7 +192,7 @@ namespace TerminatorCoreCSharp
         public enum TokenInformationClass
         {
             TokenElevation = 20
-        } 
+        }
         [DllImport("psapi.dll", CharSet = CharSet.Unicode)]
         public static extern uint GetProcessImageFileName(IntPtr hProcess, StringBuilder lpImageFileName, uint nSize);
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -200,17 +200,17 @@ namespace TerminatorCoreCSharp
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetTokenInformation(IntPtr tokenHandle, TokenInformationClass tokenInformationClass, out TOKEN_ELEVATION tokenInformation, uint tokenInformationLength, out uint returnLength);
         [DllImport("ntdll.dll")]
-        public static extern int NtSuspendProcess(IntPtr ProcessHandle); 
+        public static extern int NtSuspendProcess(IntPtr ProcessHandle);
         [DllImport("ntdll.dll")]
         public static extern int NtResumeProcess(IntPtr ProcessHandle);
         [DllImport("kernel32.dll")]
-        public static extern bool CloseHandle(IntPtr hObject); 
+        public static extern bool CloseHandle(IntPtr hObject);
         [DllImport("kernel32.dll")]
-        public static extern IntPtr GetCurrentProcess(); 
+        public static extern IntPtr GetCurrentProcess();
         [DllImport("ntdll.dll")]
-        public static extern int NtGetNextProcess(IntPtr ProcessHandle, uint DesiredAccess, uint HandleAttributes, uint Flags, out IntPtr NewProcessHandle); 
+        public static extern int NtGetNextProcess(IntPtr ProcessHandle, uint DesiredAccess, uint HandleAttributes, uint Flags, out IntPtr NewProcessHandle);
         [DllImport("ntdll.dll")]
-        public static extern int RtlAdjustPrivilege(uint Privilege, bool Enable, bool CurrentThread, out bool WasEnabled); 
+        public static extern int RtlAdjustPrivilege(uint Privilege, bool Enable, bool CurrentThread, out bool WasEnabled);
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern int GetProcessId(IntPtr hWnd);
     }
