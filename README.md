@@ -1,5 +1,5 @@
 # Advanced-Process-Terminator-Suspender-CSharp
-A program for freezing/unfreezing ANY process on Windows OS. C#
+A program for suspend/resume ANY process on Windows OS. C#
 
 ## Notes;
 * The program must be run as administrator!
